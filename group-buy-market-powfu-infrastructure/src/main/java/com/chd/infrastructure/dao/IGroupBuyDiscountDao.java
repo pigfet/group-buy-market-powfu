@@ -1,6 +1,6 @@
 package com.chd.infrastructure.dao;
 
-import cn.bugstack.infrastructure.dao.po.GroupBuyDiscount;
+import com.chd.infrastructure.dao.po.GroupBuyDiscount;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
