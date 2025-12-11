@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="group-buy-market-powfu-app" />
+        <module name="group-buy-market-powfu-trigger" />
+        <module name="group-buy-market-powfu-types" />
+        <module name="group-buy-market-powfu-domain" />
+        <module name="group-buy-market-powfu-api" />
+        <module name="group-buy-market-powfu-infrastructure" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="group-buy-market-powfu" options="-parameters" />
+      <module name="group-buy-market-powfu-api" options="-parameters" />
+      <module name="group-buy-market-powfu-app" options="-parameters" />
+      <module name="group-buy-market-powfu-domain" options="-parameters" />
+      <module name="group-buy-market-powfu-infrastructure" options="-parameters" />
+      <module name="group-buy-market-powfu-trigger" options="-parameters" />
+      <module name="group-buy-market-powfu-types" options="-parameters" />
+    </option>
+  </component>
+</project>
