@@ -15,4 +15,5 @@ public interface IGroupBuyActivityDao {
 
     List<GroupBuyActivity> queryGroupBuyActivityList();
 
+
 }
