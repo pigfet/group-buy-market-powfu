@@ -1,5 +1,8 @@
 package com.chd.domain.activity.service;
 
+import com.chd.domain.activity.model.entity.MarketProductEntity;
+import com.chd.domain.activity.model.entity.TrialBalanceEntity;
+
 /**
  * @className: IIndexGroupBuyMarketService
  * @author: powfu
@@ -8,4 +11,6 @@ package com.chd.domain.activity.service;
  * @description:
  */
 public interface IIndexGroupBuyMarketService {
+
+    TrialBalanceEntity indexMarketTrial(MarketProductEntity marketProductEntity) throws Exception;
 }
