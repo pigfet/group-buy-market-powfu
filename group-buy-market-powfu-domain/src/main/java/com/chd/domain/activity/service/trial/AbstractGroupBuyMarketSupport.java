@@ -1,9 +1,15 @@
 package com.chd.domain.activity.service.trial;
 
+import com.chd.domain.activity.adapter.repository.IActivityRepository;
 import com.chd.domain.activity.model.entity.MarketProductEntity;
 import com.chd.domain.activity.model.entity.TrialBalanceEntity;
 import com.chd.domain.activity.service.trial.factory.DefaultActivityStrategyFactory;
+import com.chd.types.design.framework.tree.AbstractMultiThreadStrategyRouter;
 import com.chd.types.design.framework.tree.AbstractStrategyRouter;
+
+import javax.annotation.Resource;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 /**
  * @className: AbstractGroupBuyMarketSupport
@@ -12,5 +18,14 @@ import com.chd.types.design.framework.tree.AbstractStrategyRouter;
  * @Version: 1.0
  * @description:
  */
-public abstract class AbstractGroupBuyMarketSupport<MarketProductEntity, DynamicContext, TrialBalanceEntity> extends AbstractStrategyRouter<com.chd.domain.activity.model.entity.MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, com.chd.domain.activity.model.entity.TrialBalanceEntity > {
+public abstract class AbstractGroupBuyMarketSupport<MarketProductEntity, DynamicContext, TrialBalanceEntity> extends AbstractMultiThreadStrategyRouter<com.chd.domain.activity.model.entity.MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, com.chd.domain.activity.model.entity.TrialBalanceEntity > {
+
+    protected long timeout = 500;
+    @Resource
+    protected IActivityRepository repository;
+
+    @Override
+    public void multiThreadRoute(com.chd.domain.activity.model.entity.MarketProductEntity requestParameter, DefaultActivityStrategyFactory.DynamicContext dynamicContext) throws ExecutionException, InterruptedException, TimeoutException {
+        // todo 缺的方法
+    }
 }

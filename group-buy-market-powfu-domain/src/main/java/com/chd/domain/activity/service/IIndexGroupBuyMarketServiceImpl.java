@@ -4,6 +4,7 @@ import com.chd.domain.activity.model.entity.MarketProductEntity;
 import com.chd.domain.activity.model.entity.TrialBalanceEntity;
 import com.chd.domain.activity.service.trial.factory.DefaultActivityStrategyFactory;
 import com.chd.types.design.framework.tree.StrategyHandler;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -14,6 +15,7 @@ import javax.annotation.Resource;
  * @Version: 1.0
  * @description:
  */
+@Service
 public class IIndexGroupBuyMarketServiceImpl implements IIndexGroupBuyMarketService {
 
     @Resource
