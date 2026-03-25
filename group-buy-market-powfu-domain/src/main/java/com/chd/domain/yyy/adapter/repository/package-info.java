@@ -1,0 +1,1 @@
+package com.chd.domain.yyy.adapter.repository;
