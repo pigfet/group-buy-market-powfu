@@ -26,7 +26,7 @@ public class RootNode extends AbstractGroupBuyMarketSupport<MarketProductEntity,
 
     @Override
     public TrialBalanceEntity doApply(MarketProductEntity requestParameter, DefaultActivityStrategyFactory.DynamicContext dynamicContext) throws Exception {
-        return route(requestParameter, dynamicContext);
+        return router(requestParameter, dynamicContext);
     }
 
     @Override

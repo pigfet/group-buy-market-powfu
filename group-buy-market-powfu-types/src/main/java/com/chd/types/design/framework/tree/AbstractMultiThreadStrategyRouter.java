@@ -14,7 +14,7 @@ public abstract class AbstractMultiThreadStrategyRouter<T, D, R> implements Stra
 
     protected StrategyHandler<T, D, R> defaultStrategyHandler = StrategyHandler.DEFAULT;
 
-    public R route(T requestParameter, D dynamicContext) throws Exception {
+    public R router(T requestParameter, D dynamicContext) throws Exception {
         StrategyHandler<T, D, R> strategyHandler = get(requestParameter, dynamicContext);
 
         if(null != strategyHandler){
@@ -32,7 +32,7 @@ public abstract class AbstractMultiThreadStrategyRouter<T, D, R> implements Stra
         return doApply(requestParameter, dynamicContext);
     }
 
-    public abstract void multiThreadRoute(T requestParameter, D dynamicContext) throws ExecutionException, InterruptedException, TimeoutException;
+    protected abstract void multiThreadRoute(T requestParameter, D dynamicContext) throws ExecutionException, InterruptedException, TimeoutException;
 
-    public abstract R doApply(T requestParameter, D dynamicContext) throws Exception;
+    protected abstract R doApply(T requestParameter, D dynamicContext) throws Exception;
 }
