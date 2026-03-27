@@ -1,5 +1,6 @@
 package com.chd.types.exception;
 
+import com.chd.types.enums.ResponseCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,9 +20,9 @@ public class AppException extends RuntimeException {
         this.code = code;
     }
 
-    public AppException(String code, Throwable cause) {
-        this.code = code;
-        super.initCause(cause);
+    public AppException(ResponseCode responseCode) {
+        this.code = responseCode.getCode();
+        this.info = responseCode.getInfo();
     }
 
     public AppException(String code, String message) {

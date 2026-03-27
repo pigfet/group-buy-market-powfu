@@ -9,13 +9,7 @@ package com.chd.types.design.framework.tree;
  */
 public interface StrategyHandler<T, D, R> {
 
-    //StrategyHandler DEFAULT = new StrategyHandler() {
-    //    @Override
-    //    public Object handle(Object requestParameter, Object dynamicContext) throws Exception {
-    //        return null;
-    //    }
-    //};
-    StrategyHandler DEFAULT = (requestParameter, dynamicContext) -> null;  //默认处理器，什么都不干
-    R apply(T requestParameter, D dynamicContext) throws Exception;
+    StrategyHandler DEFAULT = (T, D) -> null;
 
+    R apply(T requestParameter, D dynamicContext) throws Exception;
 }

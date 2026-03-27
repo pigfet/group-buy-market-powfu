@@ -14,7 +14,7 @@ import com.chd.types.exception.AppException;
 import javax.annotation.Resource;
 
 /**
- * @className: SwitchRoot
+ * @className: SwitchNode
  * @author: powfu
  * @date: 13/12/2025 下午8:49
  * @Version: 1.0
@@ -22,7 +22,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Service
-public class SwitchRoot extends AbstractGroupBuyMarketSupport<MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, TrialBalanceEntity> {
+public class SwitchNode extends AbstractGroupBuyMarketSupport<MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, TrialBalanceEntity> {
 
     @Resource
     private MarketNode marketNode;
@@ -50,7 +50,8 @@ public class SwitchRoot extends AbstractGroupBuyMarketSupport<MarketProductEntit
     }
 
     @Override
-    public StrategyHandler<MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, TrialBalanceEntity> get(MarketProductEntity marketProductEntity, DefaultActivityStrategyFactory.DynamicContext dynamicContext) {
+    public StrategyHandler<MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, TrialBalanceEntity> get(MarketProductEntity requestParameter, DefaultActivityStrategyFactory.DynamicContext dynamicContext) throws Exception {
         return marketNode;
     }
+
 }
