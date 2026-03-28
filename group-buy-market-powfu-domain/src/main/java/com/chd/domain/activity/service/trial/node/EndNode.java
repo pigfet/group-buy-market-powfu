@@ -1,6 +1,5 @@
 package com.chd.domain.activity.service.trial.node;
 
-import com.alibaba.fastjson.JSON;
 import com.chd.domain.activity.model.entity.MarketProductEntity;
 import com.chd.domain.activity.model.entity.TrialBalanceEntity;
 import com.chd.domain.activity.model.valobj.GroupBuyActivityDiscountVO;
@@ -8,17 +7,16 @@ import com.chd.domain.activity.model.valobj.SkuVO;
 import com.chd.domain.activity.service.trial.AbstractGroupBuyMarketSupport;
 import com.chd.domain.activity.service.trial.factory.DefaultActivityStrategyFactory;
 import com.chd.types.design.framework.tree.StrategyHandler;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 /**
- * @className: EndNode
- * @author: powfu
- * @date: 13/12/2025 下午8:49
- * @Version: 1.0
- * @description:
+ * @author Fuzhengwei bugstack.cn @小傅哥
+ * @description 正常结束节点
+ * @create 2024-12-14 14:31
  */
 @Slf4j
 @Service
@@ -34,8 +32,10 @@ public class EndNode extends AbstractGroupBuyMarketSupport<MarketProductEntity, 
         // 商品信息
         SkuVO skuVO = dynamicContext.getSkuVO();
 
-        // 折扣价格
+        // 折扣金额
         BigDecimal deductionPrice = dynamicContext.getDeductionPrice();
+        // 支付金额
+        BigDecimal payPrice = dynamicContext.getPayPrice();
 
         // 返回空结果
         return TrialBalanceEntity.builder()
@@ -43,6 +43,7 @@ public class EndNode extends AbstractGroupBuyMarketSupport<MarketProductEntity, 
                 .goodsName(skuVO.getGoodsName())
                 .originalPrice(skuVO.getOriginalPrice())
                 .deductionPrice(deductionPrice)
+                .payPrice(payPrice)
                 .targetCount(groupBuyActivityDiscountVO.getTarget())
                 .startTime(groupBuyActivityDiscountVO.getStartTime())
                 .endTime(groupBuyActivityDiscountVO.getEndTime())
@@ -53,7 +54,8 @@ public class EndNode extends AbstractGroupBuyMarketSupport<MarketProductEntity, 
     }
 
     @Override
-    public StrategyHandler<MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, TrialBalanceEntity> get(MarketProductEntity marketProductEntity, DefaultActivityStrategyFactory.DynamicContext dynamicContext) {
+    public StrategyHandler<MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, TrialBalanceEntity> get(MarketProductEntity requestParameter, DefaultActivityStrategyFactory.DynamicContext dynamicContext) throws Exception {
         return defaultStrategyHandler;
     }
+
 }

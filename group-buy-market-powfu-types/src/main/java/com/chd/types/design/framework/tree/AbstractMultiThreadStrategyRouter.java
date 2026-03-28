@@ -1,5 +1,8 @@
 package com.chd.types.design.framework.tree;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
@@ -12,6 +15,8 @@ import java.util.concurrent.TimeoutException;
  */
 public abstract class AbstractMultiThreadStrategyRouter<T, D, R> implements StrategyHandler<T, D, R>, StrategyMapper<T, D, R> {
 
+    @Getter
+    @Setter
     protected StrategyHandler<T, D, R> defaultStrategyHandler = StrategyHandler.DEFAULT;
 
     public R router(T requestParameter, D dynamicContext) throws Exception {
@@ -20,15 +25,21 @@ public abstract class AbstractMultiThreadStrategyRouter<T, D, R> implements Stra
         return defaultStrategyHandler.apply(requestParameter, dynamicContext);
     }
 
-
     @Override
     public R apply(T requestParameter, D dynamicContext) throws Exception {
-
-        multiThreadRoute(requestParameter, dynamicContext);
+        // 异步加载数据
+        multiThread(requestParameter, dynamicContext);
+        // 业务流程受理
         return doApply(requestParameter, dynamicContext);
     }
 
-    protected abstract void multiThreadRoute(T requestParameter, D dynamicContext) throws ExecutionException, InterruptedException, TimeoutException;
+    /**
+     * 异步加载数据
+     */
+    protected abstract void multiThread(T requestParameter, D dynamicContext) throws ExecutionException, InterruptedException, TimeoutException;
 
+    /**
+     * 业务流程受理
+     */
     protected abstract R doApply(T requestParameter, D dynamicContext) throws Exception;
 }

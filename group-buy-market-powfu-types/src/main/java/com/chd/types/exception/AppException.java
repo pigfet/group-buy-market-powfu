@@ -25,6 +25,11 @@ public class AppException extends RuntimeException {
         this.info = responseCode.getInfo();
     }
 
+    public AppException(String code, Throwable cause) {
+        this.code = code;
+        super.initCause(cause);
+    }
+
     public AppException(String code, String message) {
         this.code = code;
         this.info = message;
@@ -38,7 +43,7 @@ public class AppException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "com.chd.x.api.types.exception.XApiException{" +
+        return "cn.bugstack.types.exception.AppException{" +
                 "code='" + code + '\'' +
                 ", info='" + info + '\'' +
                 '}';

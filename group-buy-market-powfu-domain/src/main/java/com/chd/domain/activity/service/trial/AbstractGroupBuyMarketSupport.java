@@ -25,7 +25,7 @@ public abstract class AbstractGroupBuyMarketSupport<MarketProductEntity, Dynamic
     protected IActivityRepository repository;
 
     @Override
-    public void multiThreadRoute(com.chd.domain.activity.model.entity.MarketProductEntity requestParameter, DefaultActivityStrategyFactory.DynamicContext dynamicContext) throws ExecutionException, InterruptedException, TimeoutException {
-        // todo 缺的方法
+    protected void multiThread(com.chd.domain.activity.model.entity.MarketProductEntity requestParameter, DefaultActivityStrategyFactory.DynamicContext dynamicContext) throws ExecutionException, InterruptedException, TimeoutException {
+        // 缺省的方法
     }
 }

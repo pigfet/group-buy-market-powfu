@@ -1,6 +1,5 @@
 package com.chd.domain.activity.service.trial.node;
 
-import com.alibaba.fastjson.JSON;
 import com.chd.domain.activity.model.entity.MarketProductEntity;
 import com.chd.domain.activity.model.entity.TrialBalanceEntity;
 import com.chd.domain.activity.model.valobj.GroupBuyActivityDiscountVO;
@@ -13,6 +12,7 @@ import com.chd.domain.activity.service.trial.thread.QuerySkuVOFromDBThreadTask;
 import com.chd.types.design.framework.tree.StrategyHandler;
 import com.chd.types.enums.ResponseCode;
 import com.chd.types.exception.AppException;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -22,31 +22,30 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 /**
- * @className: MarketNode
- * @author: powfu
- * @date: 13/12/2025 下午8:49
- * @Version: 1.0
- * @description:
+ * @author Fuzhengwei bugstack.cn @小傅哥
+ * @description 营销优惠节点
+ * @create 2024-12-14 14:30
  */
 @Slf4j
 @Service
 public class MarketNode extends AbstractGroupBuyMarketSupport<MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, TrialBalanceEntity> {
 
     @Resource
-    private EndNode endNode;
+    private ThreadPoolExecutor threadPoolExecutor;
+    /**
+     * <a href="https://bugstack.cn/md/road-map/spring-dependency-injection.html">Spring 注入详细说明</a>
+     */
+    @Resource
+    private Map<String, IDiscountCalculateService> discountCalculateServiceMap;
     @Resource
     private ErrorNode errorNode;
     @Resource
-    private ThreadPoolExecutor threadPoolExecutor;
-
-    @Resource
-    //todo 没理解，重新学一下
-    private Map<String, IDiscountCalculateService> discountCalculateServiceMap;
+    private TagNode tagNode;
 
     @Override
-    public void multiThreadRoute(MarketProductEntity requestParameter, DefaultActivityStrategyFactory.DynamicContext dynamicContext) throws ExecutionException, InterruptedException, TimeoutException {
+    protected void multiThread(MarketProductEntity requestParameter, DefaultActivityStrategyFactory.DynamicContext dynamicContext) throws ExecutionException, InterruptedException, TimeoutException {
         // 异步查询活动配置
-        QueryGroupBuyActivityDiscountVOThreadTask queryGroupBuyActivityDiscountVOThreadTask = new QueryGroupBuyActivityDiscountVOThreadTask(requestParameter.getSource(), requestParameter.getChannel(), requestParameter.getGoodsId(), repository);
+        QueryGroupBuyActivityDiscountVOThreadTask queryGroupBuyActivityDiscountVOThreadTask = new QueryGroupBuyActivityDiscountVOThreadTask(requestParameter.getActivityId(), requestParameter.getSource(), requestParameter.getChannel(), requestParameter.getGoodsId(), repository);
         FutureTask<GroupBuyActivityDiscountVO> groupBuyActivityDiscountVOFutureTask = new FutureTask<>(queryGroupBuyActivityDiscountVOThreadTask);
         threadPoolExecutor.execute(groupBuyActivityDiscountVOFutureTask);
 
@@ -86,18 +85,21 @@ public class MarketNode extends AbstractGroupBuyMarketSupport<MarketProductEntit
         }
 
         // 折扣价格
-        BigDecimal deductionPrice = discountCalculateService.calculate(requestParameter.getUserId(), skuVO.getOriginalPrice(), groupBuyDiscount);
-        dynamicContext.setDeductionPrice(deductionPrice);
+        BigDecimal payPrice = discountCalculateService.calculate(requestParameter.getUserId(), skuVO.getOriginalPrice(), groupBuyDiscount);
+        dynamicContext.setDeductionPrice(skuVO.getOriginalPrice().subtract(payPrice));
+        dynamicContext.setPayPrice(payPrice);
 
         return router(requestParameter, dynamicContext);
     }
 
     @Override
-    public StrategyHandler<MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, TrialBalanceEntity> get(MarketProductEntity marketProductEntity, DefaultActivityStrategyFactory.DynamicContext dynamicContext) {
+    public StrategyHandler<MarketProductEntity, DefaultActivityStrategyFactory.DynamicContext, TrialBalanceEntity> get(MarketProductEntity requestParameter, DefaultActivityStrategyFactory.DynamicContext dynamicContext) throws Exception {
         // 不存在配置的拼团活动，走异常节点
         if (null == dynamicContext.getGroupBuyActivityDiscountVO() || null == dynamicContext.getSkuVO() || null == dynamicContext.getDeductionPrice()) {
             return errorNode;
         }
-        return endNode;
+
+        return tagNode;
     }
+
 }
