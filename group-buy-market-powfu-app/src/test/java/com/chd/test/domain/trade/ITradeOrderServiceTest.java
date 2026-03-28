@@ -8,7 +8,7 @@ import com.chd.domain.trade.model.entity.MarketPayOrderEntity;
 import com.chd.domain.trade.model.entity.PayActivityEntity;
 import com.chd.domain.trade.model.entity.PayDiscountEntity;
 import com.chd.domain.trade.model.entity.UserEntity;
-import com.chd.domain.trade.service.ITradeOrderService;
+import com.chd.domain.trade.service.ITradeLockOrderService;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class ITradeOrderServiceTest {
     private IIndexGroupBuyMarketService indexGroupBuyMarketService;
 
     @Resource
-    private ITradeOrderService tradeOrderService;
+    private ITradeLockOrderService tradeOrderService;
 
     @Test
     public void test_lockMarketPayOrder() throws Exception {
